@@ -11,15 +11,12 @@ The Journey Tracker app is designed to provide users with information about thei
 - **Compatibility:** The app is designed to run seamlessly on both Android devices and the Android emulator.
 
 ## ScreenShot
-![image](https://github.com/DIvineJMd/YatraMarg/assets/101663425/e55b748b-f058-409b-8f2f-9ac242137430)
-![image](https://github.com/DIvineJMd/YatraMarg/assets/101663425/62e7dea0-49f8-46ce-a564-00381210280e)
-![image](https://github.com/DIvineJMd/YatraMarg/assets/101663425/e71f421f-bfed-4f08-b452-34c7be140923)
 
 
 ## Getting Started
 To run the Journey Tracker app on your Android device or emulator, follow these steps:
 1. Clone the repository to your local machine.
-  git clone https://github.com/DIvineJMd/YatraMarg.git
+   git clone https://github.com/Devank23/MC_A1.git
 2. Open the project in Android Studio.
 3. Run the app on your desired device or emulator.
 
