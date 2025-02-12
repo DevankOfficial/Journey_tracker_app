@@ -185,16 +185,45 @@ class HomePage() {
 
                 }
 
-                Text(
-                    text = "Route Details",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = FontFamily(Font(R.font.fallingsky))
-                    ),
-                    modifier = Modifier.padding(10.dp)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        text = "Route Details",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = FontFamily(Font(R.font.fallingsky))
+                        ),
+                        modifier = Modifier.padding(10.dp)
+                    )
+                    Button(
+                        onClick = {
+                            showInKilometers = !showInKilometers
+                            kilo = showInKilometers
+                        },
+                        modifier = Modifier
+                            .padding(10.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF129CED), // Set your desired background color
+                            contentColor = Color.White // Set your desired text color
+                        )
+
+                    ) {
+                        Text(
+                            text = if (showInKilometers) "Show in Miles" else "Show in Kilometers",
+                            style = TextStyle(
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp,
+                                letterSpacing = 1.25.sp,
+                                color = Color.White
+                            )
+                        )
+                    }
+                }
 
                 Row(
                     modifier = Modifier
@@ -260,29 +289,7 @@ class HomePage() {
 
                     }
                 }
-                Button(
-                    onClick = { showInKilometers = !showInKilometers
-                              kilo=showInKilometers},
-                    modifier = Modifier
-                        .padding(10.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF129CED), // Set your desired background color
-                        contentColor = Color.White // Set your desired text color
-                    )
 
-                ) {
-                    Text(
-                        text = if (showInKilometers) "Show in Miles" else "Show in Kilometers",
-                        style = TextStyle(
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp,
-                            letterSpacing = 1.25.sp,
-                            color = Color.White
-                        )
-                    )
-                }
 
 
                 Text(
