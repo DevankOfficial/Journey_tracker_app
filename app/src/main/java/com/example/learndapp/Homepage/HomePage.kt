@@ -33,9 +33,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,13 +58,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.learndapp.R
-import com.example.learndapp.data.JourneyDetails
+import com.example.learndapp.data.JourneyDeets
 import com.example.learndapp.data.Stop
 import com.example.learndapp.data.generateRandomStops
 import kotlin.math.roundToInt
+
+
 class HomePage() {
     companion object {
-        var journeyDetails=JourneyDetails("",SnapshotStateList<Stop>() )
+        var journey=JourneyDeets("",SnapshotStateList<Stop>() )
         var kilo=true
     }
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState",
@@ -76,6 +78,7 @@ class HomePage() {
         var destination by remember { mutableStateOf("Destination") }
         var stops by remember { mutableStateOf(SnapshotStateList<Stop>()) }
         var showInKilometers by remember { mutableStateOf(true) }
+
         Scaffold(
             bottomBar= {
                 BottomAppBar(
@@ -176,10 +179,7 @@ class HomePage() {
                         modifier = Modifier.padding(vertical = 5.dp)
                     )
                     destination = selectDes { stops = generateRandomStops()
-                                                journeyDetails= JourneyDetails(
-                                                    destination = destination,
-                                                    stops =stops
-                                                )
+                                                journey= JourneyDeets(dest = destination, stops_list =stops)
                                                 kilo=showInKilometers
                     }
 
@@ -273,14 +273,14 @@ class HomePage() {
                             Row {
                                 Text(
                                     text = if (showInKilometers)
-                                        "${stops.last().preSum.roundToInt()} km"
+                                        "${stops.last().TotDist.roundToInt()} km"
                                     else
-                                        "${convertKilometersToMiles(stops.last().preSum).roundToInt()} miles",
+                                        "${convertKilometersToMiles(stops.last().TotDist).roundToInt()} miles",
                                     modifier = Modifier.padding(horizontal = 10.dp),
                                     style = TextStyle(color = Color.DarkGray)
                                 )
                                 Text(
-                                    text = "Estimated time: ${stops.last().preTimesum.roundToInt()} min",
+                                    text = "Estimated time: ${stops.last().timeTaken.roundToInt()} min",
                                     modifier = Modifier.padding(horizontal = 10.dp),
                                     style = TextStyle(color = Color.DarkGray)
                                 )
@@ -361,14 +361,14 @@ class HomePage() {
                                         Row {
                                             Text(
                                                 text = if (showInKilometers)
-                                                    "${item.preSum.roundToInt()} km"
+                                                    "${item.TotDist.roundToInt()} km"
                                                 else
-                                                    "${convertKilometersToMiles(item.preSum).roundToInt()} miles",
+                                                    "${convertKilometersToMiles(item.TotDist).roundToInt()} miles",
                                                 modifier = Modifier.padding(horizontal = 10.dp),
                                                 style = TextStyle(color = Color.DarkGray)
                                             )
                                             Text(
-                                                text = "${item.preTimesum.roundToInt()} min",
+                                                text = "${item.timeTaken.roundToInt()} min",
                                                 modifier = Modifier.padding(horizontal = 10.dp),
                                                 style = TextStyle(color = Color.DarkGray)
                                             )
@@ -407,7 +407,7 @@ class HomePage() {
     fun selectDes(onClickAction: () -> Unit): String {
         var text by remember { mutableStateOf("") }
         var openMenu by remember { mutableStateOf(false) }
-        val places = listOf("New York", "London", "Paris", "Delhi", "Mumbai", "Ayodhya", "Varanasi", "Haridwar", "Mathura", "Vrindavan", "Prayagraj", "Dwaraka", "Rishikesh")
+        val places = listOf("New York", "London", "Paris", "Russia", "Delhi", "Mumbai", "Chennai")
 
         OutlinedTextField(
             value = text,
@@ -443,11 +443,11 @@ class HomePage() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedLabelColor = Color(0xFF000000),
-                unfocusedLabelColor = Color.Gray,
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF000000),
                 unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color(0xFF000000),
+                unfocusedLabelColor = Color.Gray,
             )
         )
 
@@ -483,9 +483,6 @@ class HomePage() {
     @Composable
     fun preview(){
         val navController = rememberNavController()
-
         homeScreen(navController)
     }
-
-
 }

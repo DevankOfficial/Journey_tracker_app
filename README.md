@@ -1,17 +1,20 @@
-# Journey Tracker App (DistanceIt)
+# PLane Journey Tracker App (DistanceIt)
 
 ## Overview
-The Journey Tracker app is designed to provide users with information about their journey, including details about stops, distances between stops, and the overall progress of the journey. The app offers a user-friendly interface with the ability to switch between kilometers and miles, mark stops as reached, and visualize the journey's progress.
+The Journey Tracker app is designed to provide users with information about their journey as the travel though plane.
 
 ## Features
 - **Unit Switching:** Users can toggle between displaying distances in kilometers and miles by using a dedicated button.
 - **Stop Marking:** A button allows users to indicate that they have reached the next stop in their journey.
-- **Progress Visualization:** The app includes a progress section that displays each stop, their distances, the total distance covered, and the remaining distance. A progress bar visually represents the journey's progress.
-- **Lazy List:** For journeys with more than 10 stops, the app utilizes a lazy list to efficiently handle large datasets.
+- **Progress Visualization:** The app includes a progress section that displays each stop, their distances, the total distance covered, visas required, and the remaining distance. A progress bar visually represents the journey's progress.
+- **Lazy List:** For journeys with more than 3 stops, the app utilizes a lazy list to efficiently handle large datasets.
 - **Compatibility:** The app is designed to run seamlessly on both Android devices and the Android emulator.
 
 ## ScreenShot
-
+![ss1.png](assets%2Fss1.png)
+![ss2.png](assets%2Fss2.png)
+![ss3.png](assets%2Fss3.png)
+![ss4.png](assets%2Fss4.png)
 
 ## Getting Started
 To run the Journey Tracker app on your Android device or emulator, follow these steps:
@@ -32,10 +35,10 @@ This is an Android application built with Jetpack Compose and Navigation Compose
 The `MainActivity` is the entry point of the application. It sets up the navigation for the app using `NavHost` and `rememberNavController`.
 
 #### Navigation
-The app has two screens: `Home` and `Second`. The `NavHost` is set up with these two routes. The `startDestination` is set to `Home`, which means the app will open with the `Home` screen.
+The app has two screens: `HomePage` and `Second`. The `NavHost` is set up with these two routes, with the default screen being `HomePage`.
 
 #### Home Screen
-The `Home` screen is represented by the `JHome().homeScreen(navController)` composable function. This function takes in the `NavController` as a parameter, which is used for navigating between different screens.
+The `Home` screen is represented by the `HomePage().homeScreen(navController)` composable function. This function takes in the `NavController` as a parameter, which is used for navigating between different screens.
 
 #### Second Screen
 The `Second` screen is represented by the `secondScreen(navController)` composable function. This function also takes in the `NavController` as a parameter.
@@ -43,77 +46,85 @@ The `Second` screen is represented by the `secondScreen(navController)` composab
 #### Theme
 The app uses a custom theme defined in `LearndAppTheme`. The `Surface` composable is used to apply this theme to the entire app.
 
-#### StatusBarColor
-The status bar color is set to white using the `Setcolorbar().SetStatusBarColor(color = Color.White)` function.
-
 ### Data Package
-The data package contains the data classes and functions used to generate and manage the data in the application.
+The data package contains the data classes and functions used to generate and manage the stops data.
 
-#### JourneyDetails
-The `JourneyDetails` data class represents the details of a journey. It has two properties:
-- `destination`: A string representing the destination of the journey.
-- `stops`: A list of `Stop` objects representing the stops in the journey.
+#### Journey Details
+The `JourneyDeets` data class represents the details of a journey. It has two properties:
+- `dest`: A string representing the destination of the journey.
+- `stops_list`: A list of `Stop` objects representing the stops in the journey.
 
 #### Stop
-The `Stop` data class represents a stop in the journey. It has five properties:
-- `name`: The name of the stop.
-- `distance`: The distance to the stop.
-- `timeToCover`: The time to cover the distance to the stop.
-- `preSum`: The sum of the distances of the previous stops.
-- `preTimesum`: The sum of the times to cover the distances of the previous stops.
+The `Stop` data class represents a stop in the journey. It has following properties:
+- `name`: The name of the stop. Which is set as `Stop {i}`.
+- `currDist`: The distance to the stop. Which is randomly generated between 5 to 19 km.
+- `timeNeeded`: The time to cover the distance to the stop. Which is also randomly generated between 10 to 29 minutes.
+- `visa`: The visa requirement of that stop. Which is randomly generated as a single length string between A to Z.
+- `TotDist`: The sum of the distances of the previous stops.
+- `timeTaken`: The sum of the times to cover the distances of the previous stops.
+- `reachedStatus`: A bool to mark if the stop has been reached or not.
 
 #### generateRandomStops
-The `generateRandomStops` function generates a list of random stops. It creates a `Stop` object for each stop and adds it to the list. The distance and time to cover for each stop are randomly generated.
+The `generateRandomStops` function generates a list of random stops. It creates a `Stop` object for each stop and adds it to the list. Each attribute is generated as defined above. The number of `Stops` in each list varies between 5 to 15 (intentionally >3 to showcase lazy list).
 
 ### Home Screen
 The `HomePage` class contains the main screen of the application. It has two companion objects:
-- `journeyDetails`: An instance of the `JourneyDetails` data class.
+- `journey`: An instance of the `JourneyDeets` data class.
 - `kilo`: A boolean variable that could be used to toggle between kilometers and miles.
 
-#### homeScreen
-The `homeScreen` function is a composable function that represents the home screen of the application. It uses the `Scaffold` composable to provide a consistent design for the screen.
+## Home Screen
 
-##### State
-The `homeScreen` function uses several state variables:
-- `destination`: A string state that could be used to store the destination of the journey.
-- `stops`: A list state that could be used to store the stops of the journey.
-- `showInKilometers`: A boolean state that could be used to toggle between displaying distances in kilometers and miles.
+### homeScreen
+The `homeScreen` function is a composable function responsible for rendering the application's home screen. It utilizes the `Scaffold` composable to maintain a consistent layout.
 
-##### Composables
-Several composables are used in the `homeScreen` function:
-- `Scaffold`: Provides a consistent design for the screen.
-- `BottomAppBar`: Displays a button at the bottom of the screen.
-- `Button`: Represents the button displayed in the `BottomAppBar`.
+#### State
+The `homeScreen` function manages the following state variables:
+- **`destination`**: A string state used to store the journey’s destination.
+- **`stops`**: A list state that holds the journey’s stops.
+- **`showInKilometers`**: A boolean state that toggles the distance display between kilometers and miles.
 
-### Second Screen
-#### secondScreen
-The `secondScreen` function is a composable function that represents the second screen of the application. It uses the `Scaffold` composable to provide a consistent design for the screen.
+#### Composables
+The `homeScreen` function incorporates several composables:
+- **`Scaffold`**: Establishes a structured layout for the screen.
+- **`BottomAppBar`**: Displays a button at the bottom for user interaction.
+- **`Button`**: Placed within the `BottomAppBar` to trigger actions.
 
-##### State
-The `secondScreen` function uses several state variables:
-- `load`: A float state that could be used to represent some form of progress or loading state.
-- `indeces`: An integer state that could be used to keep track of selected indices in a list or similar data structure.
-- `selectedFilters`: A list state that could be used to keep track of selected filters or similar selection-based features.
+---
 
-##### Composables
-Several composables are used in the `secondScreen` function:
-- `Scaffold`: Provides a consistent design for the screen.
-- `BottomAppBar`: Displays a button at the bottom of the screen.
-- `Button`: Represents the button displayed in the `BottomAppBar`. The button's colors are set using the `ButtonDefaults.buttonColors` function.
-- `Row`: A composable that places its children in a horizontal sequence.
-- `Text`: A composable that displays text.
-- `Card`: A composable that displays a material design card.
-- `Icon`: A composable that displays an icon.
-- `LazyColumn`: A composable that lazily displays items in a column.
-- `FilterChip`: A composable that represents a filter chip. The chip's colors are set using the `FilterChipDefaults.filterChipColors` function.
+## Second Screen
 
-##### onClick
-The `onClick` function is used to handle click events on the filter chip. It checks if the current stop's name is not in the `selectedFilters` state, and if so, it adds the current stop's name to the `selectedFilters` state for each index up to and including the current index.
+### secondScreen
+The `secondScreen` function is a composable function that represents the application's second screen. Like `homeScreen`, it employs the `Scaffold` composable to ensure a uniform screen design.
 
-#### CompletionDialog
-The `CompletionDialog` function is a composable function that displays a dialog when the journey is completed. It takes a function `onDismissRequest` as a parameter which is called when the dialog is dismissed.
+#### State
+This function manages the following state variables:
+- **`load`**: A float state that may represent loading progress.
+- **`indeces`**: An integer state tracking selected indices within a list or similar structure.
+- **`selectedFilters`**: A list state storing selected filters or options.
 
-Inside the dialog, a `Card` is used to hold the content. An `Image` is displayed inside a `Box` to show a congratulation icon. A `Button` is provided to dismiss the dialog.
+#### Composables
+Various composables are used in `secondScreen`:
+- **`Scaffold`**: Provides a structured layout.
+- **`BottomAppBar`**: Contains a button for user interaction.
+- **`Button`**: Placed within the `BottomAppBar`, styled using `ButtonDefaults.buttonColors`.
+- **`Row`**: Arranges child composables in a horizontal sequence.
+- **`Text`**: Displays textual content.
+- **`Card`**: Presents content in a material design card format.
+- **`Icon`**: Renders an icon.
+- **`LazyColumn`**: Efficiently displays a vertically scrolling list of items.
+- **`FilterChip`**: Represents a selectable filter chip, styled using `FilterChipDefaults.filterChipColors`.
 
-#### convertKilometersToMiles
-The `convertKilometersToMiles` function is a utility function that converts kilometers to miles. It takes a `kilometers` parameter and returns the equivalent distance in miles.
+#### onClick
+The `onClick` function handles filter chip interactions. If a stop’s name is not already in `selectedFilters`, it is added for each index up to the current one.
+
+---
+
+## Dialogs & Utilities
+
+### CompletionDialog
+The `CompletionDialog` function displays a dialog upon journey completion. It accepts an `onDismissRequest` callback, which is triggered when the dialog is dismissed.
+
+The dialog's content is wrapped inside a `Card`. A `Box` is used to display an `Image` representing a congratulatory icon, and a `Button` is provided to close the dialog.
+
+### convertKilometersToMiles
+The `convertKilometersToMiles` function is a utility function that converts a given distance in kilometers to miles and returns the equivalent value.  

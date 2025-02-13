@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.learndapp.Homepage.HomePage.Companion.journeyDetails
+import com.example.learndapp.Homepage.HomePage.Companion.journey
 import com.example.learndapp.Homepage.HomePage.Companion.kilo
 import com.example.learndapp.R
 import kotlin.math.roundToInt
@@ -86,10 +86,10 @@ fun secondScreen(navController: NavController) {
                     onClick = {
                         try {
                             indexes += 1
-                            val lastStop = journeyDetails.stops.last()
-                            val currentStop = journeyDetails.stops[indexes]
-                            load = (((currentStop.preSum / lastStop.preSum)).toFloat())
-                            selectedFilters=selectedFilters + journeyDetails.stops[indexes].name
+                            val lastStop = journey.stops_list.last()
+                            val currentStop = journey.stops_list[indexes]
+                            load = (((currentStop.TotDist / lastStop.TotDist)).toFloat())
+                            selectedFilters=selectedFilters + journey.stops_list[indexes].name
                         } catch (e: IndexOutOfBoundsException) {
 
 
@@ -200,15 +200,15 @@ fun secondScreen(navController: NavController) {
                         Text(
                             text = if (kilo) {
                                 "Distance Covered: ${
-                                    (journeyDetails.stops[indexes].preSum).roundToInt()
+                                    (journey.stops_list[indexes].TotDist).roundToInt()
                                 } km | Distance Left: ${
-                                    ((journeyDetails.stops.last().preSum) - (journeyDetails.stops[indexes].preSum)).roundToInt()
+                                    ((journey.stops_list.last().TotDist) - (journey.stops_list[indexes].TotDist)).roundToInt()
                                 } km"
                             } else {
                                 "Distance Covered: ${
-                                    convertKilometersToMiles(journeyDetails.stops[indexes].preSum).roundToInt()
+                                    convertKilometersToMiles(journey.stops_list[indexes].TotDist).roundToInt()
                                 } miles | Distance Left: ${
-                                    convertKilometersToMiles((journeyDetails.stops.last().preSum) - (journeyDetails.stops[indexes].preSum)).roundToInt()
+                                    convertKilometersToMiles((journey.stops_list.last().TotDist) - (journey.stops_list[indexes].TotDist)).roundToInt()
                                 } miles"
                             },
                             modifier = Modifier.padding(horizontal = 10.dp),
@@ -222,9 +222,9 @@ fun secondScreen(navController: NavController) {
                     } else {
                         Text(
                             text = if (kilo) {
-                                "Distance Covered: 0 km | Distance Left: ${(journeyDetails.stops.last().preSum).roundToInt()} km"
+                                "Distance Covered: 0 km | Distance Left: ${(journey.stops_list.last().TotDist).roundToInt()} km"
                             } else {
-                                "Distance Covered: 0 miles | Distance Left: ${convertKilometersToMiles(journeyDetails.stops.last().preSum).roundToInt()} miles"
+                                "Distance Covered: 0 miles | Distance Left: ${convertKilometersToMiles(journey.stops_list.last().TotDist).roundToInt()} miles"
                             },
                             modifier = Modifier.padding(horizontal = 10.dp),
                             style = TextStyle(
@@ -243,7 +243,7 @@ fun secondScreen(navController: NavController) {
                 ) {
 
                     LazyColumn(Modifier) {
-                        itemsIndexed(journeyDetails.stops) { index, item ->
+                        itemsIndexed(journey.stops_list) { index, item ->
                             Card(
                                 colors = CardDefaults.cardColors(
                                     containerColor=Color.White
@@ -298,14 +298,14 @@ fun secondScreen(navController: NavController) {
                                         Row {
                                             Text(
                                                 text = if (kilo)
-                                                    "${item.preSum.roundToInt()} km"
+                                                    "${item.TotDist.roundToInt()} km"
                                                 else
-                                                    "${convertKilometersToMiles(item.preSum).roundToInt()} miles",
+                                                    "${convertKilometersToMiles(item.TotDist).roundToInt()} miles",
                                                 modifier = Modifier.padding(horizontal = 10.dp),
                                                 style = TextStyle(color = Color.DarkGray)
                                             )
                                             Text(
-                                                text = "${item.preTimesum.roundToInt()} min",
+                                                text = "${item.timeTaken.roundToInt()} min",
                                                 modifier = Modifier.padding(horizontal = 10.dp),
                                                 style = TextStyle(color = Color.DarkGray)
                                             )
@@ -336,17 +336,17 @@ fun secondScreen(navController: NavController) {
 
                                                     for (i in 0 until index+1) {
                                                         selectedFilters = selectedFilters + item.name
-                                                        val stopAbove = journeyDetails.stops[i]
+                                                        val stopAbove = journey.stops_list[i]
                                                         if (stopAbove.name !in selectedFilters) {
                                                             selectedFilters =
                                                                 selectedFilters + stopAbove.name
                                                         }
                                                         indexes = i
-                                                        val lastStop = journeyDetails.stops.last()
+                                                        val lastStop = journey.stops_list.last()
                                                         val currentStop =
-                                                            journeyDetails.stops[i]
+                                                            journey.stops_list[i]
                                                         load =
-                                                            (((currentStop.preSum / lastStop.preSum)).toFloat())
+                                                            (((currentStop.TotDist / lastStop.TotDist)).toFloat())
                                                     }
                                                 }
                                             }catch (_:IndexOutOfBoundsException){}
