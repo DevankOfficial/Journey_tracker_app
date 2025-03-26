@@ -1,4 +1,4 @@
-# PLane Journey Tracker App (DistanceIt)
+# Plane Journey Tracker App (DistanceIt)
 
 ## Overview
 The Journey Tracker app is designed to provide users with information about their journey as the travel though plane.
@@ -9,12 +9,6 @@ The Journey Tracker app is designed to provide users with information about thei
 - **Progress Visualization:** The app includes a progress section that displays each stop, their distances, the total distance covered, visas required, and the remaining distance. A progress bar visually represents the journey's progress.
 - **Lazy List:** For journeys with more than 3 stops, the app utilizes a lazy list to efficiently handle large datasets.
 - **Compatibility:** The app is designed to run seamlessly on both Android devices and the Android emulator.
-
-## ScreenShot
-![ss1.png](assets%2Fss1.png)
-![ss2.png](assets%2Fss2.png)
-![ss3.png](assets%2Fss3.png)
-![ss4.png](assets%2Fss4.png)
 
 ## Getting Started
 To run the Journey Tracker app on your Android device or emulator, follow these steps:
